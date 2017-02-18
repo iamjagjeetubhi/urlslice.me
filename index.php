@@ -102,12 +102,6 @@ if(!isLogged()) {
 		?>
 		<?php
 
-
-
-
-
-
-
 		case "login":
 
 			$username = yourls_escape($_POST['username']);
@@ -124,7 +118,8 @@ if(!isLogged()) {
 
 					yourls_redirect("index.php");
        } else {
-				 echo "activate your email";
+				 $error_msg = "Verify your E-mail first.";
+         require_once 'formverifyemailfirst.php';
 			 }
 				} else {
 
@@ -134,7 +129,7 @@ if(!isLogged()) {
 			}
 			break;
 
-      
+
 
 			case "verify_user":
 				require_once 'formverify.php';
@@ -195,34 +190,28 @@ if(!isLogged()) {
 						$verificationCode = md5(uniqid("yourrandomstringyouwanttoaddhere", true));
 
 	                // send the email verification
-	             $verificationLink = "http://localhost/materialize/index.php?act=verify?user_email=$username&verification_code=$verificationCode";
-
-	                $htmlStr = "";
-	                $htmlStr .= "Hi " . $username . ",<br /><br />";
-                  $htmlStr .= "Your Verification Code is : <h2>{$verificationCode}</h2><br>";
-	                $htmlStr .= "Please click the button below to verify your subscription and have access to the download center.<br /><br /><br />";
-	                $htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>VERIFY EMAIL</a><br /><br /><br />";
-
-	                $htmlStr .= "Kind regards,<br />";
-	                $htmlStr .= "<a href='https://codeofaninja.com/' target='_blank'>The Code of a Ninja</a><br />";
+	               $verificationLink = "http://localhost/materialize/index.php?act=verify?user_email=$username&verification_code=$verificationCode";
+								 $htmlStr = "";
+								 $htmlStr .= "Hi " . $username . ",<br /><br />";
+								 $htmlStr .= "Your Verification Code is : <h2>{$verificationCode}</h2><br>";
 
 
-	                $name = "The Code of a Ninja";
-	                $email_sender = "no-reply@codeofaninja.com";
-	                $subject = "Verification Link | The Code Of A Ninja | Subscription";
-	                $recipient_email = $username;
 
-	                $headers  = "MIME-Version: 1.0\r\n";
-	                $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
-	                $headers .= "From: {$name} <{$email_sender}> \n";
+								 $name = "Urlslice.me";
+								 $email_sender = "no-reply@codeofaninja.com";
+								 $subject = "Verification Code";
+								 $recipient_email = $username;
 
-	                $body = $htmlStr;
+								 $headers  = "MIME-Version: 1.0\r\n";
+								 $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+								 $headers .= "From: {$name} <{$email_sender}> \n";
+
+								 $body = $htmlStr;
 
 	                // send email using the mail function, you can also use php mailer library if you want
 	                mail($recipient_email, $subject, $body, $headers);
 
 	                    // tell the user a verification email were sent
-	                    echo "<div id='successMessage'>A verification email were sent to <b>" . $username . "</b>, please open your email inbox and click the given link so you can login.</div>";
 
 
 	                    // save the email in the database
@@ -237,7 +226,7 @@ if(!isLogged()) {
 
 						if (!empty($results)) {
 							$token = $results[0]->user_token;
-							$error_msg = "User $username added with token $token.";
+							$error_msg = "Verification code was sent to $username ";
 							require_once 'formverify.php';
 						} else {
 							require_once 'formjoin.php';

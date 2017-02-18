@@ -14,10 +14,10 @@
 define( 'YOURLS_DB_USER', 'root' );
 
 /** MySQL database password */
-define( 'YOURLS_DB_PASS', 'J@server04' );
+define( 'YOURLS_DB_PASS', 'a' );
 
 /** The name of the database for YOURLS */
-define( 'YOURLS_DB_NAME', 'materialize' );
+define( 'YOURLS_DB_NAME', 'urlslice' );
 
 /** MySQL hostname.
  ** If using a non standard port, specify it like 'hostname:port', eg. 'localhost:9999' or '127.0.0.1:666' */
@@ -32,7 +32,7 @@ define( 'YOURLS_DB_PREFIX', 'yourls_' );
 
 /** YOURLS installation URL -- all lowercase and with no trailing slash.
  ** If you define it to "http://sho.rt", don't use "http://www.sho.rt" in your browser (and vice-versa) */
-define( 'YOURLS_SITE', 'http://urlslice.me/materialize' );
+define( 'YOURLS_SITE', 'http://localhost/urlslice.me' );
 
 /** Server timezone GMT offset */
 define( 'YOURLS_HOURS_OFFSET', 0 );

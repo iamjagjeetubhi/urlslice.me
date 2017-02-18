@@ -81,9 +81,37 @@ function mu_html_verifyForm($error_msg = '') {
 	<?php
 }
 
+function mu_html_verifyEmailFirst($error_msg = '') {
+
+	?>
+
+	<div id="login">
+	<form method="post" action="?act=verify">
+
+
+	<?php
+	if(!empty($error_msg)) {
+		echo '<p class="error">'.$error_msg.'</p>';
+		unset($_SESSION['error_msg']);
+	}
+	?>
 
 
 
+		<p>
+			<label for="username">Verification Code</label><br /> <input type="text"
+				id="username" name="verificationcode" size="30" class="text" />
+		</p>
+
+		<p style="text-align: right;">
+			<input type="submit" id="submit" name="submit" value="confirm"
+				class="button" />
+		</p>
+	</form>
+	<script type="text/javascript">$('#username').focus();</script>
+	</div>
+	<?php
+	}
 
 
 

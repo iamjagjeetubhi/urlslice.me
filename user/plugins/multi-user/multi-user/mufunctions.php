@@ -21,10 +21,10 @@ if(!defined('YOURLS_MULTIUSER_CAPTCHA_PUBLIC_KEY')) {
 if(!defined('YOURLS_MULTIUSER_CAPTCHA_PRIVATE_KEY')) {
 	define('YOURLS_MULTIUSER_CAPTCHA', false);
 }
-if(!defined('YOURLS_MULTIUSER_CAPTCHA_THEME')) {
+if(!defined('YOURLS_MULTIUSER_CAPTCHA_THEME')) { 
 	define('YOURLS_MULTIUSER_CAPTCHA_THEME', 'white');
 }
-if(!defined('YOURLS_MULTIUSER_ANONYMOUS')) {
+if(!defined('YOURLS_MULTIUSER_ANONYMOUS')) { 
 	define('YOURLS_MULTIUSER_ANONYMOUS', true);
 }
 
@@ -214,8 +214,8 @@ function muAdminUrl($page = '') {
 	return yourls_apply_filter( 'admin_url', $admin, $page );
 }
 
-function isLogged() {
-	if(!empty($_SESSION['user']) && isset($_SESSION['user'])) {
+function isLogged() { 
+	if(!empty($_SESSION['user']) && isset($_SESSION['user'])) { 
 		return true;
 	}
 	return false;

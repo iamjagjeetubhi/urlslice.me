@@ -1,6 +1,7 @@
 <?php
 session_start();
-include("../../../includes/load-yourls.php");
+include("includes/load-yourls.php");
+
 include("muhtmlfunctions.php");
 
 if(YOURLS_PRIVATE === false) {
@@ -20,7 +21,7 @@ if(YOURLS_PRIVATE === false) {
 
 
 yourls_html_head();
-
+yourls_html_logo();
 
 $act = $_GET['act'];
 if($act == "logout") {
@@ -101,29 +102,54 @@ if(!isLogged()) {
 		?>
 		<?php
 
-
-
-
-
-
-
 		case "login":
 
 			$username = yourls_escape($_POST['username']);
 			$password = $_POST['password'];
-			if(!empty($username) && !empty($password)) {
-				if(isValidUser($username, $password)) {
+
+		if(!empty($username) && !empty($password)) {
+
+			 if(isValidUser($username, $password)) {
+
+            if(isActivatedUser($username, $password)){
 					$token = getUserTokenByEmail($username);
 					$id = getUserIdByToken($token);
 					$_SESSION['user'] = array("id" => $id, "user" => $username, "token" => $token);
 
 					yourls_redirect("index.php");
+       } else {
+				 $error_msg = "Verify your E-mail first.";
+         require_once 'formverifyemailfirst.php';
+			 }
 				} else {
+
 					$error_msg = "Problems to login.";
 				require_once 'form.php';
 				}
 			}
 			break;
+
+
+
+			case "verify_user":
+				require_once 'formverify.php';
+				break;
+
+				case "verify":
+					$verifictioncode = yourls_escape($_POST['verificationcode']);
+
+
+					 if(!empty($verifictioncode)) {
+							 if(isVerifiedUser($verifictioncode)){
+
+
+							}
+							require_once 'form.php';
+						}
+
+				 break;
+
+
 			case "log_in":
 			require_once 'form.php';
 			break;
@@ -154,14 +180,54 @@ if(!isLogged()) {
 						$error_msg = "Please choose other username.";
 						require_once 'formjoin.php';
 					} else {
+
+
+
+
 						$token = createRandonToken();
 						$password = md5($password);
-						$ydb->query("insert into `$table` (user_email, user_password, user_token) values ('$username', '$password', '$token')");
-						$results = $ydb->get_results("select user_token from `$table` where `user_email` = '$username'");
+
+						$verificationCode = md5(uniqid("yourrandomstringyouwanttoaddhere", true));
+
+	                // send the email verification
+	               $verificationLink = "http://localhost/materialize/index.php?act=verify?user_email=$username&verification_code=$verificationCode";
+								 $htmlStr = "";
+								 $htmlStr .= "Hi " . $username . ",<br /><br />";
+								 $htmlStr .= "Your Verification Code is : <h2>{$verificationCode}</h2><br>";
+
+
+
+								 $name = "Urlslice.me";
+								 $email_sender = "no-reply@codeofaninja.com";
+								 $subject = "Verification Code";
+								 $recipient_email = $username;
+
+								 $headers  = "MIME-Version: 1.0\r\n";
+								 $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
+								 $headers .= "From: {$name} <{$email_sender}> \n";
+
+								 $body = $htmlStr;
+
+	                // send email using the mail function, you can also use php mailer library if you want
+	                mail($recipient_email, $subject, $body, $headers);
+
+	                    // tell the user a verification email were sent
+
+
+	                    // save the email in the database
+	                  $created = date('Y-m-d H:i:s');
+
+
+
+
+
+						$ydb->query("insert into `$table` (user_email, user_password, user_token, verified, verification_code, created) values ('$username', '$password', '$token', '0', '$verificationCode', '?' )");
+            $results = $ydb->get_results("select user_token from `$table` where `user_email` = '$username'");
+
 						if (!empty($results)) {
 							$token = $results[0]->user_token;
-							$error_msg = "User $username added with token $token.";
-							require_once 'form.php';
+							$error_msg = "Verification code was sent to $username ";
+							require_once 'formverify.php';
 						} else {
 							require_once 'formjoin.php';
 						}
@@ -173,6 +239,9 @@ if(!isLogged()) {
 			}
 
 			break;
+
+
+
 
 		default:
 			require_once 'add_new_url.php';

@@ -6,7 +6,7 @@ if(YOURLS_PRIVATE === false || !defined( 'YOURLS_ABSPATH' )) {
 }
 
 if(isLogged()) {
-
+	
 	// Variables
 	$table_url = YOURLS_DB_TABLE_URL;
 	// Default SQL behavior
@@ -130,9 +130,7 @@ if(isLogged()) {
 	// Get URLs Count for current filter, total links in DB & total clicks
 	$user = $_SESSION["user"];
 	$tableUrlToUser = YOURLS_DB_TABLE_URL_TO_USER;
-
-		$where .= " and `keyword` in (select url_keyword from `$tableUrlToUser` where `users_user_id` = '".$user["id"]."') ";
-
+	$where .= " and `keyword` in (select url_keyword from `$tableUrlToUser` where `users_user_id` = '".$user["id"]."') ";
 	list( $total_urls, $total_clicks ) = array_values( yourls_get_db_stats($where) );
 	if ( $where ) {
 		list( $total_items, $total_items_clicks ) = array_values( yourls_get_db_stats( $where ) );
@@ -163,7 +161,7 @@ if(isLogged()) {
 			$message = $return['message'];
 			header('Content-type: application/json');
 			echo "yourls_callback({'short_url':'$short','message':'$message'});";
-
+				
 			die();
 		}
 
@@ -210,7 +208,7 @@ if(isLogged()) {
 
 	// Begin output of the page
 	$context = ( $is_bookmark ? 'bookmark' : 'index' );
-	//yourls_html_head( $context );
+	yourls_html_head( $context );
 	yourls_html_logo();
 	mu_html_menu() ;
 	?>
@@ -223,7 +221,7 @@ if(isLogged()) {
 	Display <strong><?php echo $display_on_page; ?> </strong> to <strong
 		class='increment'><?php echo $max_on_page; ?> </strong> of <strong
 		class='increment'><?php echo $total_items; ?> </strong> URLs
-		<?php if( $total_items_clicks !== false ) echo ", counting <strong>$total_items_clicks</strong> " . yourls_n('click', $total_items_clicks) ?>
+		<?php if( $total_items_clicks !== false ) echo ", counting <strong>$total_items_clicks</strong> " . yourls_plural('click', $total_items_clicks) ?>
 	.
 </p>
 		<?php } ?>

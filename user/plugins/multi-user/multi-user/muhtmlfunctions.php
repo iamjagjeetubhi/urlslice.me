@@ -49,6 +49,75 @@ function mu_html_loginForm($error_msg = '') {
 	<?php
 }
 
+function mu_html_verifyForm($error_msg = '') {
+
+	?>
+
+<div id="login">
+	<form method="post" action="?act=verify">
+
+
+	<?php
+	if(!empty($error_msg)) {
+		echo '<p class="error">'.$error_msg.'</p>';
+		unset($_SESSION['error_msg']);
+	}
+	?>
+
+
+
+		<p>
+			<label for="username">Verification Code</label><br /> <input type="text"
+				id="username" name="verificationcode" size="30" class="text" />
+		</p>
+
+		<p style="text-align: right;">
+			<input type="submit" id="submit" name="submit" value="confirm"
+				class="button" />
+		</p>
+	</form>
+	<script type="text/javascript">$('#username').focus();</script>
+</div>
+	<?php
+}
+
+function mu_html_verifyEmailFirst($error_msg = '') {
+
+	?>
+
+	<div id="login">
+	<form method="post" action="?act=verify">
+
+
+	<?php
+	if(!empty($error_msg)) {
+		echo '<p class="error">'.$error_msg.'</p>';
+		unset($_SESSION['error_msg']);
+	}
+	?>
+
+
+
+		<p>
+			<label for="username">Verification Code</label><br /> <input type="text"
+				id="username" name="verificationcode" size="30" class="text" />
+		</p>
+
+		<p style="text-align: right;">
+			<input type="submit" id="submit" name="submit" value="confirm"
+				class="button" />
+		</p>
+	</form>
+	<script type="text/javascript">$('#username').focus();</script>
+	</div>
+	<?php
+	}
+
+
+
+
+
+
 function mu_html_signupForm($error_msg = '') {
 	?>
 <script type="text/javascript">
@@ -102,6 +171,8 @@ function mu_html_signupForm($error_msg = '') {
 		<?php
 }
 
+
+
 function mu_html_menu() {
 	echo "
 		<script type=\"text/javascript\">
@@ -116,14 +187,14 @@ function mu_html_menu() {
 	if(isLogged()) {
 		?>
 
-	<li><a href="<?php echo muAdminUrl('index.php?act=logout'); ?>">Logout</a>
+	<li><a href="<?php  echo YOURLS_SITE; ?>/index.php?act=logout">Logout</a>
 	</li>
 	<?php
 	} else {
 		?>
-	<li><a href="<?php echo muAdminUrl('index.php?act=log_in'); ?>">Log in</a></li>
-	<li><a href="<?php echo muAdminUrl('index.php?act=joinform'); ?>">Sign
-			in</a></li>
+	<li><a href="<?php  echo YOURLS_SITE; ?>/index.php?act=log_in">Log in</a></li>
+	<li><a href="<?php  echo YOURLS_SITE; ?>/index.php?act=joinform">Sign
+			up</a></li>
 			<?php
 	}
 	?>

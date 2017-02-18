@@ -63,6 +63,10 @@ function tryToInstall() {
 		 `user_email` varchar(200) NOT NULL,
 		 `user_password` varchar(32) NOT NULL,
 		 `user_token` varchar(50) NOT NULL,
+		 `verified` int(11) NOT NULL COMMENT '0=no, 1=yes',
+    `verification_code` varchar(264) NOT NULL,
+     `created` datetime NOT NULL,
+     `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		 PRIMARY KEY  (`user_id`),
 		 UNIQUE KEY `user_email_UNIQUE` (`user_email`),
 		 UNIQUE KEY `user_hash_UNIQUE` (`user_token`)
