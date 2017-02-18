@@ -14,7 +14,7 @@
 define( 'YOURLS_DB_USER', 'root' );
 
 /** MySQL database password */
-define( 'YOURLS_DB_PASS', 'a' );
+define( 'YOURLS_DB_PASS', '*****' );
 
 /** The name of the database for YOURLS */
 define( 'YOURLS_DB_NAME', 'urlslice' );
@@ -32,7 +32,7 @@ define( 'YOURLS_DB_PREFIX', 'yourls_' );
 
 /** YOURLS installation URL -- all lowercase and with no trailing slash.
  ** If you define it to "http://sho.rt", don't use "http://www.sho.rt" in your browser (and vice-versa) */
-define( 'YOURLS_SITE', 'http://localhost/urlslice.me' );
+define( 'YOURLS_SITE', 'http://localhost/' );
 
 /** Server timezone GMT offset */
 define( 'YOURLS_HOURS_OFFSET', 0 );
